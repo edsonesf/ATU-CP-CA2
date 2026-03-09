@@ -8,7 +8,7 @@ public class IndexModel(GolfClubContext context) : PageModel
 {
     public int Year { get; set; }
     public int Month { get; set; }
-    public HashSet<DateOnly> BookingDates { get; set; } = [];
+    public Dictionary<DateOnly, int> BookingCounts { get; set; } = [];
 
     public async Task OnGetAsync(int? year, int? month)
     {
@@ -19,10 +19,10 @@ public class IndexModel(GolfClubContext context) : PageModel
         var firstDay = new DateOnly(Year, Month, 1);
         var lastDay = firstDay.AddMonths(1).AddDays(-1);
 
-        BookingDates = (await context.TeeTimeBookings
+        BookingCounts = await context.TeeTimeBookings
             .Where(b => b.Date >= firstDay && b.Date <= lastDay)
-            .Select(b => b.Date)
-            .Distinct()
-            .ToListAsync()).ToHashSet();
+            .GroupBy(b => b.Date)
+            .Select(g => new { Date = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.Date, x => x.Count);
     }
 }

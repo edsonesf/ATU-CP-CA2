@@ -44,14 +44,14 @@
                 {
                     var date = new DateOnly(Model.Year, Model.Month, dayNum);
                     var isToday = date == today;
-                    var hasBookings = Model.BookingDates.Contains(date);
+                    var count = Model.BookingCounts.GetValueOrDefault(date, 0);
                     <td class="@(isToday ? "table-warning fw-bold" : "") p-2">
                         <a asp-page="TeeSheet" asp-route-date="@date.ToString("yyyy-MM-dd")"
                            class="text-decoration-none d-block">
                             @dayNum
-                            @if (hasBookings)
+                            @if (count > 0)
                             {
-                                <br /><span class="badge bg-success" style="font-size:0.6rem">booked</span>
+                                <br /><span class="badge bg-success" style="font-size:0.6rem">@count booked</span>
                             }
                         </a>
                     </td>
