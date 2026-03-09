@@ -10,7 +10,7 @@ Continuous Assessment 2 (CA2) – Golf Club Management System
 
 A web application for managing golf club members and tee time bookings, built with ASP.NET 9 Razor Pages and Entity Framework Core.
 
-## CA1 – Individual Project
+## CA2 – Individual Project
 
 | Student ID | Name | GitHub |
 |---|---|---|
