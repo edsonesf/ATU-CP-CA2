@@ -5,6 +5,7 @@
     var nameOrder       = Model.CurrentSort == "name"       && Model.CurrentOrder == "asc" ? "desc" : "asc";
     var handicapOrder   = Model.CurrentSort == "handicap"   && Model.CurrentOrder == "asc" ? "desc" : "asc";
     var membershipOrder = Model.CurrentSort == "membership" && Model.CurrentOrder == "asc" ? "desc" : "asc";
+    var bookingsOrder   = Model.CurrentSort == "bookings"   && Model.CurrentOrder == "asc" ? "desc" : "asc";
 }
 
 <h2>Members</h2>
@@ -58,7 +59,12 @@
                     Handicap @(Model.CurrentSort == "handicap" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>
-            <th>Bookings</th>
+            <th>
+                <a asp-page="Index" asp-route-sort="bookings" asp-route-order="@bookingsOrder"
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                    Bookings @(Model.CurrentSort == "bookings" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
+                </a>
+            </th>
             <th></th>
         </tr>
     </thead>

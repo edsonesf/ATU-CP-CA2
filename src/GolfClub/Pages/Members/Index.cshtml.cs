@@ -55,6 +55,11 @@ public class IndexModel(GolfClubContext context) : PageModel
             .Select(g => new { MemberId = g.Key, Count = g.Count() })
             .ToDictionaryAsync(x => x.MemberId, x => x.Count);
 
+        if (sort == "bookings")
+            Members = [.. (order == "desc"
+                ? Members.OrderByDescending(m => BookingCounts.GetValueOrDefault(m.MemberId, 0))
+                : Members.OrderBy(m => BookingCounts.GetValueOrDefault(m.MemberId, 0)))];
+
         var today = DateOnly.FromDateTime(DateTime.Today);
         BookedToday = (await context.TeeTimeBookings
             .Where(b => b.Date == today)
