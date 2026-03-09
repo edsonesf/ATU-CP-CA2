@@ -12,15 +12,9 @@ DEVP_IT803 - Cross Platform Development (2025/26)
 git clone https://github.com/edsonesf/ATU-CP-CA2
 cd ATU-CP-CA2
 
-# Restore packages
-dotnet restore src/GolfClub/GolfClub.csproj
-
-# Apply migrations and seed database
-dotnet ef database update --project src/GolfClub
-
-# Run
+# Run (database is pre-seeded, no migrations needed)
 dotnet run --project src/GolfClub
-# Open: https://localhost:5001
+# Open: http://localhost:5276
 ```
 
 ---
@@ -132,6 +126,77 @@ main
 - Never commit directly to `main`
 - Each branch = one phase from the development plan
 - Merge only when the feature builds and runs cleanly
+
+---
+
+## Releasing / Deploying
+
+### 1. Publish a release build locally
+
+```bash
+cd src/GolfClub
+dotnet publish -c Release -o ./publish
+cp golfclub.db publish/
+zip -r atu-links.zip publish/
+```
+
+### 2. Copy to server
+
+```bash
+scp -i <key.pem> atu-links.zip ec2-user@<server-ip>:~/
+```
+
+### 3. On the server — first deploy
+
+```bash
+# Install ASP.NET Core runtime (Amazon Linux 2023)
+sudo dnf install -y aspnetcore-runtime-9.0
+
+unzip atu-links.zip
+mv publish atu-links
+```
+
+### 4. Run as a systemd service
+
+Create `/etc/systemd/system/atu-links.service`:
+
+```ini
+[Unit]
+Description=ATU Links Golf Club App
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ec2-user/atu-links
+ExecStart=/usr/bin/dotnet /home/ec2-user/atu-links/GolfClub.dll --urls http://0.0.0.0:5276
+Restart=always
+User=ec2-user
+Environment=ASPNETCORE_ENVIRONMENT=Production
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable atu-links
+sudo systemctl start atu-links
+```
+
+### 5. Updating an existing deployment
+
+```bash
+# Locally — build and copy new zip
+cd src/GolfClub
+dotnet publish -c Release -o ./publish
+cp golfclub.db publish/
+zip -r atu-links.zip publish/
+scp -i <key.pem> atu-links.zip ec2-user@<server-ip>:~/
+
+# On the server
+sudo systemctl stop atu-links
+rm -rf atu-links && unzip atu-links.zip && mv publish atu-links
+sudo systemctl start atu-links
+```
 
 ---
 

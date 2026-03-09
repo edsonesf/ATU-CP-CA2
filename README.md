@@ -18,13 +18,19 @@ A web application for managing golf club members and tee time bookings, built wi
 
 ---
 
+## Live Demo
+
+https://golf.edson.rocks/
+
+---
+
 ## Features
 
-- **Member management** — create, view, edit, delete members
-- **Tee sheet** — visual day view of all 15-minute slots with availability
-- **Bookings** — book tee times for up to 4 members per slot
-- **Queries** — filter members by gender and handicap range
-- **Sorting** — sort members by name or handicap (ascending/descending)
+- **Member management** — create, view, edit, delete members; auto-generated membership numbers
+- **Tee sheet** — calendar view + day view of all 15-minute slots with colour-coded availability
+- **Bookings** — book tee times for up to 4 members per slot; view all bookings per member
+- **Queries** — filter members by gender, handicap range, name, or membership number
+- **Sorting** — sort members by name, handicap, membership number, or booking count
 - **Validation** — client-side and server-side validation on all forms
 
 ---
@@ -39,15 +45,12 @@ A web application for managing golf club members and tee time bookings, built wi
 ```bash
 git clone https://github.com/edsonesf/ATU-CP-CA2
 cd ATU-CP-CA2
-
-dotnet restore src/GolfClub/GolfClub.csproj
-dotnet ef database update --project src/GolfClub
 dotnet run --project src/GolfClub
 ```
 
-Open: `https://localhost:5001`
+Open: `http://localhost:5276`
 
-The database is created automatically on first run and seeded with sample data.
+The database (`golfclub.db`) is committed to the repo and seeded with sample data — no setup required.
 
 ---
 
