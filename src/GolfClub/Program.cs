@@ -1,9 +1,11 @@
 using GolfClub.Data;
+using GolfClub.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<BookingService>();
 builder.Services.AddDbContext<GolfClubContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
