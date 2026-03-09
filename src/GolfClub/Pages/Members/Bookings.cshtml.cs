@@ -20,8 +20,10 @@ public class BookingsModel(GolfClubContext context) : PageModel
         Bookings = await context.TeeTimeBookings
             .Include(b => b.Players).ThenInclude(p => p.Member)
             .Where(b => b.Players.Any(p => p.MemberId == id))
-            .OrderByDescending(b => b.Date).ThenBy(b => b.TimeSlot)
+            .OrderByDescending(b => b.Date)
             .ToListAsync();
+
+        Bookings = [.. Bookings.OrderByDescending(b => b.Date).ThenBy(b => b.TimeSlot)];
 
         return Page();
     }
