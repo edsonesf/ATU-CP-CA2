@@ -1,0 +1,37 @@
+@page
+@model GolfClub.Pages.Members.IndexModel
+@{
+    ViewData["Title"] = "Members";
+}
+
+<h2>Members</h2>
+<a asp-page="Create" class="btn btn-primary mb-3">Add Member</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Membership No.</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Handicap</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var member in Model.Members)
+        {
+            <tr>
+                <td>@member.MembershipNumber</td>
+                <td>@member.Name</td>
+                <td>@member.Email</td>
+                <td>@member.Gender</td>
+                <td>@member.Handicap</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@member.MemberId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@member.MemberId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
