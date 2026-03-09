@@ -65,6 +65,7 @@
                 <td>@member.Gender</td>
                 <td>@member.Handicap</td>
                 <td>
+                    <a asp-page="Bookings" asp-route-id="@member.MemberId">Bookings</a> |
                     <a asp-page="Edit" asp-route-id="@member.MemberId">Edit</a> |
                     <a asp-page="Delete" asp-route-id="@member.MemberId">Delete</a>
                 </td>
