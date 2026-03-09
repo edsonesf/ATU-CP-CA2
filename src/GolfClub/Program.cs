@@ -15,6 +15,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<GolfClubContext>();
+    context.Database.EnsureCreated();
+    SeedData.Seed(context);
+}
+
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
