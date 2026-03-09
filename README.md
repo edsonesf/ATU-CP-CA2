@@ -87,8 +87,7 @@ src/GolfClub/
 │   ├── Members/    ← CRUD + sorting + filtering
 │   └── Bookings/   ← Tee sheet + booking management
 └── Program.cs
-
-tests/GolfClub.Tests/   ← xUnit unit tests for BookingService
+└── tests/GolfClub.Tests/   ← xUnit unit tests for BookingService
 ```
 
 ---
@@ -99,8 +98,6 @@ Unit tests cover the core business rules in `BookingService`:
 - One booking per member per day
 - Maximum 4 players per tee time slot
 - Valid handicap range (0–54)
-
-Tests are included as a professional practice, not a requirement of the assignment.
 
 ```bash
 dotnet test tests/GolfClub.Tests/GolfClub.Tests.csproj
@@ -117,7 +114,7 @@ EF Core packages are pinned to `9.0.x` in the `.csproj`:
 <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3" />
 ```
 
-Without a version, `dotnet add package` resolves the latest — currently EF Core 10, which requires .NET 10. Pinning ensures the packages match the project's `net9.0` target framework.
+Without a version, `dotnet add package` resolves the latest — currently EF Core 10, which requires `.NET 10`. Pinning ensures the packages match the project's `net9.0` target framework.
 
 ---
 

@@ -1,7 +1,7 @@
 # Contributing Guide
 
-ATU Links — CA2  
 DEVP_IT803 - Cross Platform Development (2025/26)
+ATU Links — CA2  
 
 ---
 
@@ -250,24 +250,4 @@ If tests exist:
 dotnet test     # must pass with 0 failures
 ```
 
----
 
-## Project Structure
-
-```
-ATU-CP-CA2/
-├── src/
-│   └── GolfClub/
-│       ├── Data/           ← DbContext, SeedData
-│       ├── Models/         ← Member, TeeTimeBooking, BookingPlayer
-│       ├── Services/       ← BookingService (business rules)
-│       ├── Pages/
-│       │   ├── Members/
-│       │   └── Bookings/
-│       └── Program.cs
-├── tests/
-│   └── GolfClub.Tests/     ← xUnit unit tests
-├── PLAN.md
-├── CONTRIBUTING.md
-└── README.md
-```
