@@ -1,0 +1,45 @@
+@page "{id:int}"
+@model GolfClub.Pages.Members.EditModel
+@{
+    ViewData["Title"] = "Edit Member";
+}
+
+<h2>Edit Member</h2>
+
+<form method="post" class="col-md-6">
+    <input type="hidden" asp-for="Member.MemberId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="Member.MembershipNumber" class="form-label"></label>
+        <input asp-for="Member.MembershipNumber" class="form-control" />
+        <span asp-validation-for="Member.MembershipNumber" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Member.Name" class="form-label"></label>
+        <input asp-for="Member.Name" class="form-control" />
+        <span asp-validation-for="Member.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Member.Email" class="form-label"></label>
+        <input asp-for="Member.Email" class="form-control" />
+        <span asp-validation-for="Member.Email" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Member.Gender" class="form-label"></label>
+        <select asp-for="Member.Gender" asp-items="Html.GetEnumSelectList<GolfClub.Models.Gender>()" class="form-select"></select>
+        <span asp-validation-for="Member.Gender" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Member.Handicap" class="form-label"></label>
+        <input asp-for="Member.Handicap" class="form-control" type="number" min="0" max="54" />
+        <span asp-validation-for="Member.Handicap" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
