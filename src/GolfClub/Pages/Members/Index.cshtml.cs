@@ -27,9 +27,9 @@ public class IndexModel(GolfClubContext context) : PageModel
 
         var query = context.Members.AsQueryable();
 
-        // Search by name
+        // Search by name or membership number
         if (!string.IsNullOrWhiteSpace(search))
-            query = query.Where(m => m.Name.Contains(search));
+            query = query.Where(m => m.Name.Contains(search) || m.MembershipNumber.Contains(search));
 
         // Filter by gender
         if (!string.IsNullOrEmpty(gender) && Enum.TryParse<Gender>(gender, out var genderEnum))
