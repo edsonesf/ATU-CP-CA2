@@ -2,19 +2,56 @@
 @model GolfClub.Pages.Members.IndexModel
 @{
     ViewData["Title"] = "Members";
+    var nameOrder  = Model.CurrentSort == "name"     && Model.CurrentOrder == "asc" ? "desc" : "asc";
+    var handicapOrder = Model.CurrentSort == "handicap" && Model.CurrentOrder == "asc" ? "desc" : "asc";
 }
 
 <h2>Members</h2>
 <a asp-page="Create" class="btn btn-primary mb-3">Add Member</a>
 
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="gender" class="form-select" onchange="this.form.submit()">
+            <option value="">All Genders</option>
+            @foreach (var g in Enum.GetNames<GolfClub.Models.Gender>())
+            {
+                <option value="@g" selected="@(Model.CurrentGender == g)">@g</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <select name="handicap" class="form-select" onchange="this.form.submit()">
+            <option value="">All Handicaps</option>
+            <option value="below10"  selected="@(Model.CurrentHandicap == "below10")">Below 10</option>
+            <option value="11to20"   selected="@(Model.CurrentHandicap == "11to20")">11 – 20</option>
+            <option value="above20"  selected="@(Model.CurrentHandicap == "above20")">Above 20</option>
+        </select>
+    </div>
+    <input type="hidden" name="sort"  value="@Model.CurrentSort" />
+    <input type="hidden" name="order" value="@Model.CurrentOrder" />
+    <div class="col-auto">
+        <a asp-page="Index" class="btn btn-outline-secondary">Clear</a>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Membership No.</th>
-            <th>Name</th>
+            <th>
+                <a asp-page="Index" asp-route-sort="name" asp-route-order="@nameOrder"
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                    Name @(Model.CurrentSort == "name" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
+                </a>
+            </th>
             <th>Email</th>
             <th>Gender</th>
-            <th>Handicap</th>
+            <th>
+                <a asp-page="Index" asp-route-sort="handicap" asp-route-order="@handicapOrder"
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                    Handicap @(Model.CurrentSort == "handicap" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
+                </a>
+            </th>
             <th></th>
         </tr>
     </thead>
