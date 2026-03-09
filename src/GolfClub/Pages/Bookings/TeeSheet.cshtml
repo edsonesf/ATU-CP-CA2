@@ -1,0 +1,32 @@
+@page
+@model GolfClub.Pages.Bookings.TeeSheetModel
+@{
+    ViewData["Title"] = "Tee Sheet";
+}
+
+<h2>Tee Sheet — @Model.Date.ToString("dddd, dd MMMM yyyy")</h2>
+<a asp-page="Index" class="btn btn-outline-secondary mb-3">Change Date</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Time</th>
+            <th>Players</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var slot in Model.Slots)
+        {
+            var booking = Model.Bookings[slot];
+            var count = booking?.Players.Count ?? 0;
+            var status = booking is null ? "Free" : count >= 4 ? "Full" : $"{count}/4";
+
+            <tr>
+                <td>@slot.ToString("HH:mm")</td>
+                <td>@(booking is null ? "—" : $"{count} / 4")</td>
+                <td>@status</td>
+            </tr>
+        }
+    </tbody>
+</table>
