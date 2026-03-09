@@ -1,0 +1,26 @@
+@page "{id:int}"
+@model GolfClub.Pages.Members.DeleteModel
+@{
+    ViewData["Title"] = "Delete Member";
+}
+
+<h2>Delete Member</h2>
+<p class="text-danger">Are you sure you want to delete this member?</p>
+
+<dl class="row col-md-4">
+    <dt class="col-sm-5">Membership No.</dt>
+    <dd class="col-sm-7">@Model.Member.MembershipNumber</dd>
+    <dt class="col-sm-5">Name</dt>
+    <dd class="col-sm-7">@Model.Member.Name</dd>
+    <dt class="col-sm-5">Email</dt>
+    <dd class="col-sm-7">@Model.Member.Email</dd>
+    <dt class="col-sm-5">Gender</dt>
+    <dd class="col-sm-7">@Model.Member.Gender</dd>
+    <dt class="col-sm-5">Handicap</dt>
+    <dd class="col-sm-7">@Model.Member.Handicap</dd>
+</dl>
+
+<form method="post">
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
