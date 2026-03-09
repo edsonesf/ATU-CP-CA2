@@ -2,6 +2,7 @@ using GolfClub.Data;
 using GolfClub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace GolfClub.Pages.Members;
 
@@ -21,6 +22,12 @@ public class EditModel(GolfClubContext context) : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid) return Page();
+
+        if (await context.Members.AnyAsync(m => m.Email == Member.Email && m.MemberId != Member.MemberId))
+        {
+            ModelState.AddModelError("Member.Email", "A member with this email already exists.");
+            return Page();
+        }
 
         context.Members.Update(Member);
         await context.SaveChangesAsync();
