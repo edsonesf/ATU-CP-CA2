@@ -13,6 +13,8 @@ public class CreateModel(GolfClubContext context) : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        Member.Email = Member.Email.ToLowerInvariant();
+
         if (!ModelState.IsValid) return Page();
 
         if (await context.Members.AnyAsync(m => m.Email == Member.Email))
@@ -20,6 +22,16 @@ public class CreateModel(GolfClubContext context) : PageModel
             ModelState.AddModelError("Member.Email", "A member with this email already exists.");
             return Page();
         }
+
+        var maxNumber = (await context.Members
+            .Select(m => m.MembershipNumber)
+            .Where(n => n.StartsWith("ATU"))
+            .ToListAsync())
+            .Select(n => int.TryParse(n[3..], out var num) ? num : 0)
+            .DefaultIfEmpty(0)
+            .Max();
+
+        Member.MembershipNumber = $"ATU{(maxNumber + 1):D3}";
 
         context.Members.Add(Member);
         await context.SaveChangesAsync();
