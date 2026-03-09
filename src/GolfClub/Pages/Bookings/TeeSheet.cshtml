@@ -5,7 +5,11 @@
 }
 
 <h2>Tee Sheet — @Model.Date.ToString("dddd, dd MMMM yyyy")</h2>
-<a asp-page="Index" class="btn btn-outline-secondary mb-3">Change Date</a>
+<div class="d-flex gap-2 mb-3">
+    <a asp-page="TeeSheet" asp-route-date="@Model.Date.AddDays(-1).ToString("yyyy-MM-dd")" class="btn btn-outline-secondary">◀ Prev</a>
+    <a asp-page="Index" class="btn btn-outline-secondary">Change Date</a>
+    <a asp-page="TeeSheet" asp-route-date="@Model.Date.AddDays(1).ToString("yyyy-MM-dd")" class="btn btn-outline-secondary">Next ▶</a>
+</div>
 
 <table class="table table-bordered">
     <thead>
