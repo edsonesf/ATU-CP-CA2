@@ -2,8 +2,9 @@
 @model GolfClub.Pages.Members.IndexModel
 @{
     ViewData["Title"] = "Members";
-    var nameOrder  = Model.CurrentSort == "name"     && Model.CurrentOrder == "asc" ? "desc" : "asc";
-    var handicapOrder = Model.CurrentSort == "handicap" && Model.CurrentOrder == "asc" ? "desc" : "asc";
+    var nameOrder       = Model.CurrentSort == "name"       && Model.CurrentOrder == "asc" ? "desc" : "asc";
+    var handicapOrder   = Model.CurrentSort == "handicap"   && Model.CurrentOrder == "asc" ? "desc" : "asc";
+    var membershipOrder = Model.CurrentSort == "membership" && Model.CurrentOrder == "asc" ? "desc" : "asc";
 }
 
 <h2>Members</h2>
@@ -37,7 +38,12 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Membership No.</th>
+            <th>
+                <a asp-page="Index" asp-route-sort="membership" asp-route-order="@membershipOrder"
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                    Membership No. @(Model.CurrentSort == "membership" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
+                </a>
+            </th>
             <th>
                 <a asp-page="Index" asp-route-sort="name" asp-route-order="@nameOrder"
                    asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">

@@ -38,10 +38,12 @@ public class IndexModel(GolfClubContext context) : PageModel
         // Sort
         query = (sort, order) switch
         {
-            ("handicap", "desc") => query.OrderByDescending(m => m.Handicap),
-            ("handicap", _)      => query.OrderBy(m => m.Handicap),
-            (_, "desc")          => query.OrderByDescending(m => m.Name),
-            _                    => query.OrderBy(m => m.Name)
+            ("handicap",   "desc") => query.OrderByDescending(m => m.Handicap),
+            ("handicap",   _)      => query.OrderBy(m => m.Handicap),
+            ("membership", "desc") => query.OrderByDescending(m => m.MembershipNumber),
+            ("membership", _)      => query.OrderBy(m => m.MembershipNumber),
+            (_,            "desc") => query.OrderByDescending(m => m.Name),
+            _                      => query.OrderBy(m => m.Name)
         };
 
         Members = await query.ToListAsync();
