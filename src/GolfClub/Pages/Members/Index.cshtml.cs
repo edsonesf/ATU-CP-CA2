@@ -12,6 +12,8 @@ public class IndexModel(GolfClubContext context) : PageModel
     public string CurrentOrder { get; set; } = "asc";
     public string? CurrentGender { get; set; }
     public string? CurrentHandicap { get; set; }
+    public Dictionary<int, int> BookingCounts { get; set; } = [];
+    public HashSet<int> BookedToday { get; set; } = [];
 
     public async Task OnGetAsync(string sort = "name", string order = "asc", string? gender = null, string? handicap = null)
     {
@@ -47,5 +49,16 @@ public class IndexModel(GolfClubContext context) : PageModel
         };
 
         Members = await query.ToListAsync();
+
+        BookingCounts = await context.BookingPlayers
+            .GroupBy(bp => bp.MemberId)
+            .Select(g => new { MemberId = g.Key, Count = g.Count() })
+            .ToDictionaryAsync(x => x.MemberId, x => x.Count);
+
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        BookedToday = (await context.TeeTimeBookings
+            .Where(b => b.Date == today)
+            .SelectMany(b => b.Players.Select(p => p.MemberId))
+            .ToListAsync()).ToHashSet();
     }
 }

@@ -58,6 +58,7 @@
                     Handicap @(Model.CurrentSort == "handicap" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>
+            <th>Bookings</th>
             <th></th>
         </tr>
     </thead>
@@ -70,6 +71,13 @@
                 <td>@member.Email</td>
                 <td>@member.Gender</td>
                 <td>@member.Handicap</td>
+                <td>
+                    @(Model.BookingCounts.GetValueOrDefault(member.MemberId, 0))
+                    @if (Model.BookedToday.Contains(member.MemberId))
+                    {
+                        <span class="badge bg-success ms-1">Today</span>
+                    }
+                </td>
                 <td>
                     <a asp-page="Bookings" asp-route-id="@member.MemberId">Bookings</a> |
                     <a asp-page="Edit" asp-route-id="@member.MemberId">Edit</a> |
