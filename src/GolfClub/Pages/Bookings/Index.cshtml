@@ -2,16 +2,62 @@
 @model GolfClub.Pages.Bookings.IndexModel
 @{
     ViewData["Title"] = "Tee Sheet";
+    var firstDay = new DateOnly(Model.Year, Model.Month, 1);
+    var daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
+    var startOffset = ((int)firstDay.DayOfWeek + 6) % 7; // Monday = 0
+    var today = DateOnly.FromDateTime(DateTime.Today);
+    var prevMonth = firstDay.AddMonths(-1);
+    var nextMonth = firstDay.AddMonths(1);
+    var rows = (int)Math.Ceiling((startOffset + daysInMonth) / 7.0);
 }
 
 <h2>Tee Sheet</h2>
-<p>Select a date to view available tee times.</p>
 
-<form method="get" class="row g-2">
-    <div class="col-auto">
-        <input type="date" name="Date" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-    </div>
-    <div class="col-auto">
-        <button type="submit" class="btn btn-primary">View Tee Sheet</button>
-    </div>
-</form>
+<div class="d-flex align-items-center gap-2 mb-3">
+    <a asp-page="Index" asp-route-year="@prevMonth.Year" asp-route-month="@prevMonth.Month" class="btn btn-outline-secondary">◀</a>
+    <h5 class="mb-0 mx-2">@firstDay.ToString("MMMM yyyy")</h5>
+    <a asp-page="Index" asp-route-year="@nextMonth.Year" asp-route-month="@nextMonth.Month" class="btn btn-outline-secondary">▶</a>
+    <a asp-page="Index" class="btn btn-outline-secondary ms-2">Today</a>
+</div>
+
+<table class="table table-bordered text-center" style="table-layout:fixed; max-width:560px">
+    <thead class="table-dark">
+        <tr>
+            @foreach (var d in new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" })
+            {
+                <th>@d</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @for (int row = 0; row < rows; row++)
+        {
+            <tr>
+            @for (int col = 0; col < 7; col++)
+            {
+                int dayNum = row * 7 + col - startOffset + 1;
+                if (dayNum < 1 || dayNum > daysInMonth)
+                {
+                    <td class="text-muted bg-light"></td>
+                }
+                else
+                {
+                    var date = new DateOnly(Model.Year, Model.Month, dayNum);
+                    var isToday = date == today;
+                    var hasBookings = Model.BookingDates.Contains(date);
+                    <td class="@(isToday ? "table-warning fw-bold" : "") p-2">
+                        <a asp-page="TeeSheet" asp-route-date="@date.ToString("yyyy-MM-dd")"
+                           class="text-decoration-none d-block">
+                            @dayNum
+                            @if (hasBookings)
+                            {
+                                <br /><span class="badge bg-success" style="font-size:0.6rem">booked</span>
+                            }
+                        </a>
+                    </td>
+                }
+            }
+            </tr>
+        }
+    </tbody>
+</table>
