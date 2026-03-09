@@ -18,11 +18,25 @@
     <input type="hidden" asp-for="TimeSlot" />
 
     <div class="mb-3">
-        <label asp-for="SelectedMemberId" class="form-label">Member</label>
+        <label class="form-label">Player 1 (required)</label>
         <select asp-for="SelectedMemberId" asp-items="Model.Members" class="form-select">
             <option value="">— select member —</option>
         </select>
     </div>
+
+    @for (int i = 0; i < 3; i++)
+    {
+        <div class="mb-3">
+            <label class="form-label">Player @(i + 2) (optional)</label>
+            <select name="AdditionalMemberIds" class="form-select">
+                <option value="0">— none —</option>
+                @foreach (var item in Model.Members)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+    }
 
     <button type="submit" class="btn btn-primary">Book</button>
     <a asp-page="TeeSheet" asp-route-date="@Model.Date.ToString("yyyy-MM-dd")" class="btn btn-outline-secondary">Cancel</a>
