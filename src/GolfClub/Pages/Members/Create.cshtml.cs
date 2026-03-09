@@ -14,6 +14,7 @@ public class CreateModel(GolfClubContext context) : PageModel
     public async Task<IActionResult> OnPostAsync()
     {
         Member.Email = Member.Email.ToLowerInvariant();
+        ModelState.Remove("Member.MembershipNumber"); // auto-generated, not submitted
 
         if (!ModelState.IsValid) return Page();
 
