@@ -15,9 +15,17 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
+bin/
+Bin/
 [Bb]in/
+obj/
+Obj/
 [Oo]bj/
+log/
+Log/
 [Ll]og/
+logs/
+Logs/
 [Ll]ogs/
 
 # .NET Core
