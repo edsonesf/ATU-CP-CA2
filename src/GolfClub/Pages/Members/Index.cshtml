@@ -13,6 +13,9 @@
 
 <form method="get" class="row g-2 mb-3">
     <div class="col-auto">
+        <input type="text" name="search" value="@Model.CurrentSearch" placeholder="Search by name…" class="form-control" />
+    </div>
+    <div class="col-auto">
         <select name="gender" class="form-select" onchange="this.form.submit()">
             <option value="">All Genders</option>
             @foreach (var g in Enum.GetNames<GolfClub.Models.Gender>())
@@ -31,6 +34,7 @@
     </div>
     <input type="hidden" name="sort"  value="@Model.CurrentSort" />
     <input type="hidden" name="order" value="@Model.CurrentOrder" />
+    <input type="hidden" name="search" value="@Model.CurrentSearch" />
     <div class="col-auto">
         <a asp-page="Index" class="btn btn-outline-secondary">Clear</a>
     </div>
@@ -41,13 +45,13 @@
         <tr>
             <th>
                 <a asp-page="Index" asp-route-sort="membership" asp-route-order="@membershipOrder"
-                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap" asp-route-search="@Model.CurrentSearch">
                     Membership No. @(Model.CurrentSort == "membership" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>
             <th>
                 <a asp-page="Index" asp-route-sort="name" asp-route-order="@nameOrder"
-                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap" asp-route-search="@Model.CurrentSearch">
                     Name @(Model.CurrentSort == "name" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>
@@ -55,13 +59,13 @@
             <th>Gender</th>
             <th>
                 <a asp-page="Index" asp-route-sort="handicap" asp-route-order="@handicapOrder"
-                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap" asp-route-search="@Model.CurrentSearch">
                     Handicap @(Model.CurrentSort == "handicap" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>
             <th>
                 <a asp-page="Index" asp-route-sort="bookings" asp-route-order="@bookingsOrder"
-                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap">
+                   asp-route-gender="@Model.CurrentGender" asp-route-handicap="@Model.CurrentHandicap" asp-route-search="@Model.CurrentSearch">
                     Bookings @(Model.CurrentSort == "bookings" ? (Model.CurrentOrder == "asc" ? "▲" : "▼") : "")
                 </a>
             </th>

@@ -15,14 +15,21 @@ public class IndexModel(GolfClubContext context) : PageModel
     public Dictionary<int, int> BookingCounts { get; set; } = [];
     public HashSet<int> BookedToday { get; set; } = [];
 
-    public async Task OnGetAsync(string sort = "name", string order = "asc", string? gender = null, string? handicap = null)
+    public string? CurrentSearch { get; set; }
+
+    public async Task OnGetAsync(string sort = "name", string order = "asc", string? gender = null, string? handicap = null, string? search = null)
     {
         CurrentSort = sort;
         CurrentOrder = order;
         CurrentGender = gender;
         CurrentHandicap = handicap;
+        CurrentSearch = search;
 
         var query = context.Members.AsQueryable();
+
+        // Search by name
+        if (!string.IsNullOrWhiteSpace(search))
+            query = query.Where(m => m.Name.Contains(search));
 
         // Filter by gender
         if (!string.IsNullOrEmpty(gender) && Enum.TryParse<Gender>(gender, out var genderEnum))
