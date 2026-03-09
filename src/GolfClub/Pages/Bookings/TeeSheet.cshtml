@@ -23,8 +23,9 @@
             var count = booking?.Players.Count ?? 0;
             var status = booking is null ? "Free" : count >= 4 ? "Full" : $"{count}/4";
             var dateStr = Model.Date.ToString("yyyy-MM-dd");
+            var rowClass = booking is null ? "table-success" : count >= 4 ? "table-danger" : "table-warning";
 
-            <tr>
+            <tr class="@rowClass">
                 <td>@slot.ToString("HH:mm")</td>
                 <td>@(booking is null ? "—" : $"{count} / 4")</td>
                 <td>@status</td>
