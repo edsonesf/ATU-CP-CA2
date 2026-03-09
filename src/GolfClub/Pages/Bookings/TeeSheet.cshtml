@@ -13,6 +13,7 @@
             <th>Time</th>
             <th>Players</th>
             <th>Status</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -21,11 +22,23 @@
             var booking = Model.Bookings[slot];
             var count = booking?.Players.Count ?? 0;
             var status = booking is null ? "Free" : count >= 4 ? "Full" : $"{count}/4";
+            var dateStr = Model.Date.ToString("yyyy-MM-dd");
 
             <tr>
                 <td>@slot.ToString("HH:mm")</td>
                 <td>@(booking is null ? "—" : $"{count} / 4")</td>
                 <td>@status</td>
+                <td>
+                    @if (booking is null)
+                    {
+                        <a asp-page="Create" asp-route-date="@dateStr" asp-route-timeSlot="@slot.ToString("HH:mm")" class="btn btn-sm btn-success">Book</a>
+                    }
+                    else
+                    {
+                        <a asp-page="Edit" asp-route-id="@booking.BookingId" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@booking.BookingId" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </td>
             </tr>
         }
     </tbody>
