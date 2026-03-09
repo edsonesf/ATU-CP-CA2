@@ -2,6 +2,7 @@ using GolfClub.Data;
 using GolfClub.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace GolfClub.Pages.Members;
 
@@ -20,11 +21,18 @@ public class DeleteModel(GolfClubContext context) : PageModel
     public async Task<IActionResult> OnPostAsync(int id)
     {
         var member = await context.Members.FindAsync(id);
-        if (member is not null)
+        if (member is null) return RedirectToPage("Index");
+
+        var hasBookings = await context.BookingPlayers.AnyAsync(bp => bp.MemberId == id);
+        if (hasBookings)
         {
-            context.Members.Remove(member);
-            await context.SaveChangesAsync();
+            Member = member;
+            ModelState.AddModelError(string.Empty, "Cannot delete this member — they have existing bookings. Remove them from all bookings first.");
+            return Page();
         }
+
+        context.Members.Remove(member);
+        await context.SaveChangesAsync();
         return RedirectToPage("Index");
     }
 }
