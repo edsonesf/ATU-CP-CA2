@@ -172,6 +172,14 @@ Each phase leaves the app in a working, runnable state.
 dotnet build    # must pass with 0 errors
 ```
 
+### Adding NuGet packages
+
+Always pin EF Core packages to `9.0.x` — without a version, `dotnet add package` resolves the latest (currently EF Core 10, which requires .NET 10 and will fail on this project):
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite --version 9.0.3
+```
+
 If tests exist:
 ```bash
 dotnet test     # must pass with 0 failures

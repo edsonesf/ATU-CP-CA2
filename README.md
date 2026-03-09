@@ -105,6 +105,19 @@ dotnet test tests/GolfClub.Tests/GolfClub.Tests.csproj
 
 ---
 
+## NuGet Package Versions
+
+EF Core packages are pinned to `9.0.x` in the `.csproj`:
+
+```xml
+<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
+<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3" />
+```
+
+Without a version, `dotnet add package` resolves the latest — currently EF Core 10, which requires .NET 10. Pinning ensures the packages match the project's `net9.0` target framework.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
